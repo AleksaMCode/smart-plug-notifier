@@ -8,6 +8,8 @@ from tapo_adapter.device_factory import DeviceFactory
 from tapo_adapter.plug_p110 import PlugP110
 from tapo_adapter.tapo_device_type import TapoDeviceType
 
+from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
+
 
 @dataclass
 class ManagedDevice:
@@ -65,15 +67,16 @@ class DeviceManager:
 class DeviceManagerBuilder:
     """Builds a DeviceManager from configuration."""
 
-    def __init__(self, client: ApiClient):
+    def __init__(self, client: ApiClient, rabbitmq: RabbitMqAdapter):
         self._client = client
+        self._rabbitmq = rabbitmq
 
     async def build(self) -> DeviceManager:
         manager = DeviceManager()
         for name, mac in DEVICE_LIST.items():
             # For now, only PlugP110 is supported
             device = await DeviceFactory.create(
-                name, TapoDeviceType.P110, mac, self._client
+                name, TapoDeviceType.P110, mac, self._client, self._rabbitmq
             )
             await manager.add_device(name, device)
         return manager

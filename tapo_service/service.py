@@ -4,13 +4,17 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from settings import SERVER, TAPO_EMAIL, TAPO_PASSWORD
+from settings import (RABBIT_MQ, RABBITMQ_PASSWORD, RABBITMQ_USERNAME, SERVER,
+                      TAPO_EMAIL, TAPO_PASSWORD)
 from tapo import ApiClient
 from tapo_adapter.device_manager import DeviceManager, DeviceManagerBuilder
+
+from tapo_service.rabbitmq_publisher import RabbitMqPublisher
 
 origins = ["*"]
 api_client = None
 device_manager: DeviceManager = None
+rabbitmq: RabbitMqPublisher = None
 
 
 @asynccontextmanager
@@ -36,9 +40,17 @@ app.add_middleware(
 
 
 async def init():
-    global api_client, device_manager
+    global api_client, device_manager, rabbitmq
     api_client = ApiClient(TAPO_EMAIL, TAPO_PASSWORD)
-    builder = DeviceManagerBuilder(api_client)
+    rabbitmq = RabbitMqPublisher(
+        host=RABBIT_MQ["host"],
+        port=RABBIT_MQ["port"],
+        queue=RABBIT_MQ["queue"],
+        username=RABBITMQ_USERNAME,
+        password=RABBITMQ_PASSWORD,
+    )
+    await rabbitmq.connect()
+    builder = DeviceManagerBuilder(api_client, rabbitmq)
     device_manager = await builder.build()
 
 

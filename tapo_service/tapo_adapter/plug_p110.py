@@ -6,6 +6,8 @@ from settings import DEVICE_SLEEP_TIME
 from tapo import ApiClient
 from tapo_adapter.device import Device
 
+from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
+
 
 class PlugP110(Device):
     """Specific implementation for the Tapo P110 smart plug."""
@@ -13,7 +15,14 @@ class PlugP110(Device):
     # State is used to denote if the device is in usage based on the current power usage
     _state: bool = False
 
-    def __init__(self, name: str, mac: str, client: ApiClient, ip: str = None):
+    def __init__(
+        self,
+        name: str,
+        mac: str,
+        client: ApiClient,
+        rabbitmq: RabbitMqAdapter,
+        ip: str = None,
+    ):
         """
         :param name: Name of the device
         :param mac: MAC address of the device
@@ -22,7 +31,7 @@ class PlugP110(Device):
         """
         super().__init__(mac, client, ip)
         self._name = name
-
+        self._rabbitmq = rabbitmq
         state_file = Path(f"state-{mac.replace(':', '-')}.json")
 
         # Load state from file if exists
@@ -56,9 +65,15 @@ class PlugP110(Device):
             current_power_result = await self._device.get_current_power()
             current_state = current_power_result.current_power > 0
             print(f"{self._name} - {current_state}")
-            if current_state != self._state:
-                # TODO Send RabbitMQ msg
-                self._state = current_state
+            # if current_state != self._state:
+            await self._rabbitmq.amqp_handler(
+                {
+                    "device": self._name,
+                    "mac": self.mac,
+                    "state": current_state,
+                }
+            )
+            self._state = current_state
             sleep(DEVICE_SLEEP_TIME)
 
     def save_state(self):

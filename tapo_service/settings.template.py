@@ -19,7 +19,9 @@ if not TAPO_EMAIL or not TAPO_PASSWORD:
     )
 
 if not RABBITMQ_USERNAME or not RABBITMQ_USERNAME:
-    raise RuntimeError("RABBITMQ_USERNAME and RABBITMQ_PASSWORD must be set in .env or environment variables.")
+    raise RuntimeError(
+        "RABBITMQ_USERNAME and RABBITMQ_PASSWORD must be set in .env or environment variables."
+    )
 
 # Network mask used to discover devices - used as a Target protocol address (TPA) for ARP messages
 # E.g., 192.168.1.1/24

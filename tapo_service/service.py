@@ -21,9 +21,7 @@ async def lifespan(fastapi: FastAPI):
     print("Server shutting down.")
     if device_manager:
         await device_manager.stop_pooling()
-    for dev in device_manager.devices.values():
-        dev.device.save_state()
-    print("Saved all device states.")
+    device_manager.save_states()
 
 
 app = FastAPI(lifespan=lifespan)

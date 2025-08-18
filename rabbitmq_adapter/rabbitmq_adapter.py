@@ -5,6 +5,7 @@ import aio_pika
 
 class RabbitMqAdapter(metaclass=ABCMeta):
     """Abstract base class for RabbitMQ operations with default init and connect."""
+
     _connection: aio_pika.RobustConnection = None
     _channel: aio_pika.RobustChannel = None
 
@@ -22,10 +23,16 @@ class RabbitMqAdapter(metaclass=ABCMeta):
                 host=self._host,
                 port=self._port,
                 login=self._username,
-                password=self._password
+                password=self._password,
             )
             self._channel = await self._connection.channel()
-            await self._channel.declare_queue(self._queue, durable=True)
+            # not durable → doesn't survive broker restart
+            # auto_delete → deleted once no subscribers remain
+            await self._channel.declare_queue(
+                self._queue,
+                durable=True,
+                # durable=False, auto_delete=True
+            )
 
     @abstractmethod
     async def amqp_handler(self, message: dict):

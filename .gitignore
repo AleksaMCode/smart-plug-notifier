@@ -1,3 +1,6 @@
+# Tapo device state file
+state*.json
+
 # Settings file
 settings.py
 

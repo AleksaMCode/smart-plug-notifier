@@ -1,0 +1,5 @@
+tapo
+scapy
+python-dotenv
+fastapi
+uvicorn

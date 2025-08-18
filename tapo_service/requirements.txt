@@ -3,3 +3,4 @@ scapy
 python-dotenv
 fastapi
 uvicorn
+aio_pika

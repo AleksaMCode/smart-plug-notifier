@@ -65,15 +65,15 @@ class PlugP110(Device):
             current_power_result = await self._device.get_current_power()
             current_state = current_power_result.current_power > 0
             print(f"{self._name} - {current_state}")
-            # if current_state != self._state:
-            await self._rabbitmq.amqp_handler(
-                {
-                    "device": self._name,
-                    "mac": self.mac,
-                    "state": current_state,
-                }
-            )
-            self._state = current_state
+            if current_state != self._state:
+                await self._rabbitmq.amqp_handler(
+                    {
+                        "device": self._name,
+                        "mac": self.mac,
+                        "state": current_state,
+                    }
+                )
+                self._state = current_state
             sleep(DEVICE_SLEEP_TIME)
 
     def save_state(self):

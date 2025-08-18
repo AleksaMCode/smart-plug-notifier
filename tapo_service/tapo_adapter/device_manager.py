@@ -52,6 +52,15 @@ class DeviceManager:
                 managed.task.cancel()
                 managed.task = None
 
+    def save_states(self):
+        """Persist the last known state of all devices."""
+        for dev in self.devices.values():
+            try:
+                dev.device.save_state()
+            except Exception as e:
+                print(f"[{dev.device.mac}] Failed to save state: {e}")
+        print("Saved all device states.")
+
 
 class DeviceManagerBuilder:
     """Builds a DeviceManager from configuration."""

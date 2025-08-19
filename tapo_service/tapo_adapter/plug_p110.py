@@ -1,3 +1,4 @@
+import asyncio
 import json
 from pathlib import Path
 from time import sleep
@@ -13,6 +14,7 @@ class PlugP110(Device):
 
     # State is used to denote if the device is in usage based on the current power usage
     _state: bool = False
+    _device = None
 
     def __init__(
         self,
@@ -46,7 +48,14 @@ class PlugP110(Device):
 
     async def init(self):
         """Initialize the P110 device connection."""
-        self._device = await self._client.p110(self._ip)
+        for i in range(10):
+            try:
+                self._device = await self._client.p110(self._ip)
+                return
+            except Exception:
+                await asyncio.sleep(2)
+        else:
+            raise RuntimeError(f"Cannot connect to Tapo device with MAC address {self._mac}.")
 
     async def get_state(self) -> bool:
         """Retrieve actual state from the P110 device."""

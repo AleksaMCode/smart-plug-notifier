@@ -1,3 +1,4 @@
+import asyncio
 from abc import ABCMeta, abstractmethod
 
 import aio_pika
@@ -26,22 +27,29 @@ class RabbitMqAdapter(metaclass=ABCMeta):
     async def connect(self) -> None:
         """Default connection logic to RabbitMQ."""
         if self._connection is None or self._connection.is_closed:
-            self._connection = await aio_pika.connect_robust(
-                host=self._host,
-                port=self._port,
-                login=self._username,
-                password=self._password,
-            )
-            self._channel = await self._connection.channel()
-            # not durable → doesn't survive broker restart
-            # auto_delete → deleted once no subscribers remain
-            self._channel_queue = await self._channel.declare_queue(
-                self._queue,
-                # durable=False, auto_delete=True
-                durable=True,
-                # only keeps messages if there’s a consumer; otherwise they are dropped
-                arguments={"x-max-length": 0},
-            )
+            for i in range(10):
+                try:
+                    self._connection = await aio_pika.connect_robust(
+                        host=self._host,
+                        port=self._port,
+                        login=self._username,
+                        password=self._password,
+                    )
+                    self._channel = await self._connection.channel()
+                    # not durable → doesn't survive broker restart
+                    # auto_delete → deleted once no subscribers remain
+                    self._channel_queue = await self._channel.declare_queue(
+                        self._queue,
+                        # durable=False, auto_delete=True
+                        durable=True,
+                        # only keeps messages if there’s a consumer; otherwise they are dropped
+                        arguments={"x-max-length": 0},
+                    )
+                    break
+                except aio_pika.exceptions.AMQPConnectionError:
+                    await asyncio.sleep(2)
+            else:
+                raise RuntimeError("Cannot connect to RabbitMQ")
 
     @abstractmethod
     async def amqp_handler(self, message: dict):

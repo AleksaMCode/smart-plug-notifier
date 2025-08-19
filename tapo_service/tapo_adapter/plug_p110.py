@@ -55,7 +55,9 @@ class PlugP110(Device):
             except Exception:
                 await asyncio.sleep(2)
         else:
-            raise RuntimeError(f"Cannot connect to Tapo device with MAC address {self._mac}.")
+            raise RuntimeError(
+                f"Cannot connect to Tapo device with MAC address {self._mac}."
+            )
 
     async def get_state(self) -> bool:
         """Retrieve actual state from the P110 device."""

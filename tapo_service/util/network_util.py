@@ -1,7 +1,9 @@
+import asyncio
+
 from scapy.layers.l2 import ARP, Ether
 from scapy.sendrecv import srp
 from settings import NETWORK_MASK
-import asyncio
+
 
 class NetworkUtil:
     @staticmethod
@@ -24,4 +26,6 @@ class NetworkUtil:
             except Exception:
                 sleep(2)
         else:
-            raise RuntimeError(f"Failed to find an IP address for {mac_address} mac address.")
+            raise RuntimeError(
+                f"Failed to find an IP address for {mac_address} mac address."
+            )

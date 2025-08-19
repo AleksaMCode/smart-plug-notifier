@@ -3,13 +3,10 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
+from rabbitmq_adapter.rabbitmq_subscriber import RabbitMqSubscriber
+from settings import RABBIT_MQ, RABBITMQ_PASSWORD, RABBITMQ_USERNAME, SERVER
 from starlette.middleware.cors import CORSMiddleware
-
-from notification_service.rabbitmq_adapter.rabbitmq_subscriber import \
-    RabbitMqSubscriber
-from notification_service.settings import (RABBIT_MQ, RABBITMQ_PASSWORD,
-                                           RABBITMQ_USERNAME, SERVER)
-from notification_service.telegram_adapter import TelegramAdapter
+from telegram_adapter import TelegramAdapter
 
 origins = ["*"]
 rabbitmq: RabbitMqSubscriber = None

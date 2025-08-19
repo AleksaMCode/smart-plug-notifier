@@ -2,11 +2,10 @@ import json
 from pathlib import Path
 from time import sleep
 
+from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
 from settings import DEVICE_SLEEP_TIME
 from tapo import ApiClient
 from tapo_adapter.device import Device
-
-from tapo_service.rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
 
 
 class PlugP110(Device):

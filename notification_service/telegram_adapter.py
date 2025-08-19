@@ -1,9 +1,7 @@
 import json
 
+from settings import TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID
 from telegram import Bot
-
-from notification_service.settings import (TELEGRAM_BOT_TOKEN,
-                                           TELEGRAM_CHANNEL_ID)
 
 
 class TelegramAdapter:

@@ -20,7 +20,6 @@ This architecture allows SPN to:</a>
 <li><p align="justify">React in near real-time to device activity.</p></li>
 <li><p align="justify">Scale horizontally by adding more consumers or producers.</p></li>
 <li><p align="justify">Extend easily with new notification channels.</p></li>
-<li><p align="justify">Maintain resilience by buffering messages in RabbitMQ until they are delivered.</p></li>
 </ul>
 
 <p align="center">
@@ -48,7 +47,7 @@ class="center"
 <li><p align="justify">A <code>settings.template.py</code> file with required configuration (e.g., device list). After editing, rename it to <code>settings.py</code> for each service.</p></li>
 </ul>
 
-<p align="justify">After cloning start the SPN by running the following docker command:</p>
+<p align="justify">After cloning this repo start the SPN by running the following docker command:</p>
 
 ```bash
 docker compose up -d --build

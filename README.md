@@ -9,7 +9,7 @@
 
 The system is composed of two primary services:</p>
 <ol>
-<li><p align="justify"><b>Tapo Service</b>: responsible for monitoring Tapo smart plugs (<a href="https://www.tapo.com/en/product/smart-plug/tapo-p110/">T110</a>) by polling them locally over encrypted HTTP (<a href="https://en.wikipedia.org/wiki/JSON-RPC">JSON-RPC</a>). Whenever a device changes state, transitioning from idle to active (power consumption >  $0\, W$) or from active to idle (power consumption returning to $0\, W$), the service publishes an event to <a href="https://en.wikipedia.org/wiki/RabbitMQ">RabbitMQ</a>.</p></li>
+<li><p align="justify"><b>Tapo Service</b>: responsible for monitoring Tapo smart plugs (<a href="https://www.tapo.com/en/product/smart-plug/tapo-p110/">P110</a>) by polling them locally over encrypted HTTP (<a href="https://en.wikipedia.org/wiki/JSON-RPC">JSON-RPC</a>). Whenever a device changes state, transitioning from idle to active (power consumption >  $0\, W$) or from active to idle (power consumption returning to $0\, W$), the service publishes an event to <a href="https://en.wikipedia.org/wiki/RabbitMQ">RabbitMQ</a>.</p></li>
 <li><p align="justify"><b>Notification Service</b>: acts as a consumer of these events. It listens to the RabbitMQ queue, processes the incoming messages, and forwards notifications to end users. Currently, notifications are delivered via <a href="https://telegram.org/tour/channels">Telegram Channel</a> using the <a href="https://core.telegram.org/bots/api">Telegram Bot API</a>, but the system is extensible and can support additional channels (e.g., Signal, Discord, email) through dedicated adapters.</p></li>
 </ol>
 

@@ -37,8 +37,10 @@ class RabbitMqAdapter(metaclass=ABCMeta):
             # auto_delete → deleted once no subscribers remain
             self._channel_queue = await self._channel.declare_queue(
                 self._queue,
-                durable=True,
                 # durable=False, auto_delete=True
+                durable=True,
+                # only keeps messages if there’s a consumer; otherwise they are dropped
+                arguments={"x-max-length": 0}
             )
 
     @abstractmethod

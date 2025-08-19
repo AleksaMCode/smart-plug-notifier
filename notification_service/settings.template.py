@@ -19,7 +19,9 @@ if not RABBITMQ_USERNAME or not RABBITMQ_USERNAME:
     )
 
 if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHANNEL_ID:
-    raise RuntimeError("TELEGRAM_BOT_TOKEN and TELEGRAM_CHANNEL_ID must be set in .env or environment variables.")
+    raise RuntimeError(
+        "TELEGRAM_BOT_TOKEN and TELEGRAM_CHANNEL_ID must be set in .env or environment variables."
+    )
 
 # Server configuration.
 SERVER = {

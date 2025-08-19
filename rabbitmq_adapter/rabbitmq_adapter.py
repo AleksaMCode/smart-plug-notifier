@@ -40,7 +40,7 @@ class RabbitMqAdapter(metaclass=ABCMeta):
                 # durable=False, auto_delete=True
                 durable=True,
                 # only keeps messages if there’s a consumer; otherwise they are dropped
-                arguments={"x-max-length": 0}
+                arguments={"x-max-length": 0},
             )
 
     @abstractmethod

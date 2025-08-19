@@ -1,11 +1,15 @@
 import json
+
 from telegram import Bot
 
-from notification_service.settings import TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID
+from notification_service.settings import (TELEGRAM_BOT_TOKEN,
+                                           TELEGRAM_CHANNEL_ID)
 
 
 class TelegramAdapter:
-    def __init__(self, token: str = None, chat_id: str = None, messages_file: str = "en.json"):
+    def __init__(
+        self, token: str = None, chat_id: str = None, messages_file: str = "en.json"
+    ):
         self._chat_id = chat_id or TELEGRAM_CHANNEL_ID
         self._bot = Bot(token=token or TELEGRAM_BOT_TOKEN)
         self._messages = {}

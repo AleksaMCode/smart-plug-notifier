@@ -1,4 +1,4 @@
 {
-  "started": "{name} has started",
-  "finished": "{name} has finished"
+  "started": "{0} has started",
+  "finished": "{0} has finished"
 }

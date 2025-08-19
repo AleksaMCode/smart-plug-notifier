@@ -26,5 +26,5 @@ class TelegramAdapter:
         template = self._messages.get(key)
         if not template:
             return
-        text = template.format(name=name)
+        text = template.format(name)
         await self._bot.send_message(chat_id=self._chat_id, text=text)

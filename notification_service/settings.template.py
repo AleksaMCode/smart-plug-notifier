@@ -19,7 +19,7 @@ SERVER = {
     # localhost address is needed to make `uvicorn` server accessible on the local network using different devices.
     "localhost": "0.0.0.0",
     "host": "127.0.0.1",
-    "port": 3_001,
+    "port": 3_002,
 }
 
 # Rabbit MQ configuration.

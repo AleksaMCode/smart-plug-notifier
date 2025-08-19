@@ -1,3 +1,4 @@
+import asyncio
 import json
 
 from settings import TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID
@@ -25,4 +26,10 @@ class TelegramAdapter:
         if not template:
             return
         text = template.format(name)
-        await self._bot.send_message(chat_id=self._chat_id, text=text)
+        for i in range(10):
+            try:
+                await self._bot.send_message(chat_id=self._chat_id, text=text)
+            except Exception:
+                await asyncio.sleep(2)
+        else:
+            raise RuntimeError("Failed to send a message to the Telegram channel.")

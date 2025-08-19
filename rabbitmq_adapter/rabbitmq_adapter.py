@@ -8,6 +8,13 @@ class RabbitMqAdapter(metaclass=ABCMeta):
 
     _connection: aio_pika.RobustConnection = None
     _channel: aio_pika.RobustChannel = None
+    """
+    Channel name
+    """
+    _channel_queue: aio_pika.abc.AbstractRobustQueue = None
+    """
+    Actual RabbitMQ channel
+    """
 
     def __init__(self, host: str, port: int, queue: str, username: str, password: str):
         self._host = host
@@ -28,7 +35,7 @@ class RabbitMqAdapter(metaclass=ABCMeta):
             self._channel = await self._connection.channel()
             # not durable → doesn't survive broker restart
             # auto_delete → deleted once no subscribers remain
-            await self._channel.declare_queue(
+            self._channel_queue = await self._channel.declare_queue(
                 self._queue,
                 durable=True,
                 # durable=False, auto_delete=True

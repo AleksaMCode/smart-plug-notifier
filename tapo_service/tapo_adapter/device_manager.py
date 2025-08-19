@@ -8,7 +8,7 @@ from tapo_adapter.device_factory import DeviceFactory
 from tapo_adapter.plug_p110 import PlugP110
 from tapo_adapter.tapo_device_type import TapoDeviceType
 
-from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
+from tapo_service.rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
 
 
 @dataclass

@@ -1,7 +1,8 @@
 import asyncio
 import json
 
-from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
+from notification_service.rabbitmq_adapter.rabbitmq_adapter import \
+    RabbitMqAdapter
 
 
 class RabbitMqSubscriber(RabbitMqAdapter):

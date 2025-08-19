@@ -2,7 +2,7 @@ import json
 
 import aio_pika
 
-from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
+from tapo_service.rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
 
 
 class RabbitMqPublisher(RabbitMqAdapter):

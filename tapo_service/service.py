@@ -9,7 +9,7 @@ from settings import (RABBIT_MQ, RABBITMQ_PASSWORD, RABBITMQ_USERNAME, SERVER,
 from tapo import ApiClient
 from tapo_adapter.device_manager import DeviceManager, DeviceManagerBuilder
 
-from tapo_service.rabbitmq_publisher import RabbitMqPublisher
+from tapo_service.rabbitmq_adapter.rabbitmq_publisher import RabbitMqPublisher
 
 origins = ["*"]
 api_client = None

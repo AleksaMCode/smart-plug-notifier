@@ -2,3 +2,4 @@ python-dotenv
 fastapi
 uvicorn
 aio_pika
+python-telegram-bot

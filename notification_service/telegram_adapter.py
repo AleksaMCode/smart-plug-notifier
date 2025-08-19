@@ -29,6 +29,7 @@ class TelegramAdapter:
         for i in range(10):
             try:
                 await self._bot.send_message(chat_id=self._chat_id, text=text)
+                break
             except Exception:
                 await asyncio.sleep(2)
         else:

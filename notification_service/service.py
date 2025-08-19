@@ -3,6 +3,8 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
+
+from notification_service.telegram_adapter import TelegramAdapter
 from rabbitmq_subscriber import RabbitMqSubscriber
 from starlette.middleware.cors import CORSMiddleware
 
@@ -11,6 +13,7 @@ from notification_service.settings import (RABBIT_MQ, RABBITMQ_PASSWORD,
 
 origins = ["*"]
 rabbitmq: RabbitMqSubscriber = None
+telegram: TelegramAdapter = None
 
 
 @asynccontextmanager
@@ -20,9 +23,9 @@ async def lifespan(fastapi: FastAPI):
     print("Server shutting down.")
 
 
-def handle_message(message: dict):
-    # TODO Implement sending messages to Viber
-    print(f"Received message: {message}")
+async def handle_payload(payload: dict):
+    print(f"Received message: {payload}")
+    await telegram.send_message(payload.get("device"), payload.get("state"))
 
 
 app = FastAPI(lifespan=lifespan)
@@ -37,7 +40,7 @@ app.add_middleware(
 
 
 async def init():
-    global rabbitmq
+    global rabbitmq, telegram
     rabbitmq = RabbitMqSubscriber(
         host=RABBIT_MQ["host"],
         port=RABBIT_MQ["port"],
@@ -45,6 +48,7 @@ async def init():
         username=RABBITMQ_USERNAME,
         password=RABBITMQ_PASSWORD,
     )
+    telegram = TelegramAdapter()
 
 
 async def serve_fastapi():
@@ -56,7 +60,7 @@ async def serve_fastapi():
 
 
 async def serve_rabbitmq():
-    await rabbitmq.amqp_handler(handle_message)
+    await rabbitmq.amqp_handler(handle_payload)
 
 
 async def main():

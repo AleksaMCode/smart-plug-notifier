@@ -9,10 +9,17 @@ load_dotenv()
 RABBITMQ_USERNAME = os.getenv("RABBITMQ_USERNAME")
 RABBITMQ_PASSWORD = os.getenv("RABBITMQ_PASSWORD")
 
+# Environment variable for Telegram
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHANNEL_ID = os.getenv("TELEGRAM_CHANNEL_ID")
+
 if not RABBITMQ_USERNAME or not RABBITMQ_USERNAME:
     raise RuntimeError(
         "RABBITMQ_USERNAME and RABBITMQ_PASSWORD must be set in .env or environment variables."
     )
+
+if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHANNEL_ID:
+    raise RuntimeError("TELEGRAM_BOT_TOKEN and TELEGRAM_CHANNEL_ID must be set in .env or environment variables.")
 
 # Server configuration.
 SERVER = {

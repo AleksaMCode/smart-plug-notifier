@@ -1,3 +1,4 @@
+import asyncio
 import json
 
 from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
@@ -10,4 +11,4 @@ class RabbitMqSubscriber(RabbitMqAdapter):
             async for message in queue_iter:
                 async with message.process():
                     payload = json.loads(message.body.decode())
-                    callback(payload)
+                    asyncio.create_task(callback(payload))

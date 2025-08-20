@@ -38,7 +38,7 @@ class="center"
 
 ## Setup
 
-<p align="justify">"SPN is containerized for simplicity and can be launched with <a href="https://docs.docker.com/compose/">Docker Compose</a>. Both <code>tapo_service</code> and <code>notification_service</code> include their own Dockerfiles, while RabbitMQ runs as a separate container within the same setup.
+<p align="justify">SPN is containerized for simplicity and can be launched with <a href="https://docs.docker.com/compose/">Docker Compose</a>. Both <code>tapo_service</code> and <code>notification_service</code> include their own Dockerfiles, while RabbitMQ runs as a separate container within the same setup.
 
 ### Prerequisites
 

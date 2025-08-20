@@ -5,7 +5,7 @@
 [![Python 3.10.7](https://img.shields.io/badge/python-3.10.7-blue.svg)](https://www.python.org/downloads/release/python-3107/)
 ![](https://img.shields.io/github/v/release/AleksaMCode/smart-plug-notifier)
 
-<p align="justify">Smart Plug Notifier (SPN) is a notification system built on an asynchronous, event-driven microservices architecture. Each service runs concurrently using non-blocking operations, which ensures scalability and responsiveness.
+<p align="justify"><b>Smart Plug Notifier</b> (SPN) is a notification system built on an asynchronous, event-driven microservices architecture. Each service runs concurrently using non-blocking operations, which ensures scalability and responsiveness.
 
 The system is composed of two primary services:</p>
 <ol>

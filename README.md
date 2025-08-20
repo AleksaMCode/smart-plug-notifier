@@ -5,7 +5,7 @@
 [![Python 3.10.7](https://img.shields.io/badge/python-3.10.7-blue.svg)](https://www.python.org/downloads/release/python-3107/)
 ![](https://img.shields.io/github/v/release/AleksaMCode/smart-plug-notifier)
 
-<p align="justify"><b>Smart Plug Notifier</b> (SPN) is a notification system built on an asynchronous, event-driven microservices architecture. Each service runs concurrently using non-blocking operations, which ensures scalability and responsiveness.
+<p align="justify"><b>Smart Plug Notifier</b> (SPN) is a notification system built on an asynchronous, event-driven microservice architecture. Each service runs concurrently using non-blocking operations, which ensures scalability and responsiveness.
 
 The system is composed of two primary services:</p>
 <ol>
@@ -13,7 +13,7 @@ The system is composed of two primary services:</p>
 <li><p align="justify"><b>Notification Service</b>: acts as a consumer of these events. It listens to the RabbitMQ queue, processes the incoming messages, and forwards notifications to end users. Currently, notifications are delivered via <a href="https://telegram.org/tour/channels">Telegram Channel</a> using the <a href="https://core.telegram.org/bots/api">Telegram Bot API</a>, but the system is extensible and can support additional channels (e.g., Signal, Discord, email) through dedicated adapters.</p></li>
 </ol>
 
-<p align="justify">RabbitMQ acts as the message broker and communication backbone between the microservices. It ensures that events are decoupled from their consumers, can be processed asynchronously, and remain reliable even if one service is temporarily unavailable. It’s worth noting that, messages are not persisted in the queue. If no subscriber is active at the time of publishing, the message will be lost. This is intentional as state-change events only carry value at the moment they occur. Once missed, the information becomes stale and no longer relevant.
+<p align="justify">RabbitMQ acts as the message broker and communication backbone between the microservices. It ensures that events are decoupled from their consumers, can be processed asynchronously, and remain reliable even if one service is temporarily unavailable. It’s worth noting that, messages are not persisted in the queue. If no subscriber is active at the time of publishing, the message will be lost. This is intentional, as state-change events only carry value at the moment they occur. Once missed, the information becomes stale and no longer relevant.
 
 This architecture allows SPN to:</a>
 <ul>
@@ -47,7 +47,7 @@ class="center"
 <li><p align="justify">A <code>settings.template.py</code> file with required configuration (e.g., device list). After editing, rename it to <code>settings.py</code> for each service.</p></li>
 </ul>
 
-<p align="justify">After cloning this repo start the SPN by running the following docker command:</p>
+<p align="justify">After cloning this repo, start the SPN by running the following docker command:</p>
 
 ```bash
 docker compose up -d --build

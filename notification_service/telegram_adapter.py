@@ -33,4 +33,4 @@ class TelegramAdapter:
             except Exception:
                 await asyncio.sleep(SLEEP_TIME)
         else:
-            raise RuntimeError("Failed to send a message to the Telegram channel.")
+            print("Failed to send a message to the Telegram channel.")

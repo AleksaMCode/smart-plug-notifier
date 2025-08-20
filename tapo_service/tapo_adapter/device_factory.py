@@ -1,11 +1,10 @@
 from abc import ABCMeta
 
+from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
 from tapo import ApiClient
 from tapo_adapter.device import Device
 from tapo_adapter.plug_p110 import PlugP110
 from tapo_adapter.tapo_device_type import TapoDeviceType
-
-from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
 
 
 class DeviceFactory(metaclass=ABCMeta):

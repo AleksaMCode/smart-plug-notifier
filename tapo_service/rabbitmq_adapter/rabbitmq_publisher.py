@@ -1,7 +1,6 @@
 import json
 
 import aio_pika
-
 from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
 
 

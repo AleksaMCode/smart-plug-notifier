@@ -4,12 +4,11 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from rabbitmq_adapter.rabbitmq_publisher import RabbitMqPublisher
 from settings import (RABBIT_MQ, RABBITMQ_PASSWORD, RABBITMQ_USERNAME, SERVER,
                       TAPO_EMAIL, TAPO_PASSWORD)
 from tapo import ApiClient
 from tapo_adapter.device_manager import DeviceManager, DeviceManagerBuilder
-
-from tapo_service.rabbitmq_publisher import RabbitMqPublisher
 
 origins = ["*"]
 api_client = None

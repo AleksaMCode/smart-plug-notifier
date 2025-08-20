@@ -23,6 +23,9 @@ if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHANNEL_ID:
         "TELEGRAM_BOT_TOKEN and TELEGRAM_CHANNEL_ID must be set in .env or environment variables."
     )
 
+# Pause between resuming operation (retry to connect or search for something)
+SLEEP_TIME = 10
+
 # Server configuration.
 SERVER = {
     # localhost address is needed to make `uvicorn` server accessible on the local network using different devices.

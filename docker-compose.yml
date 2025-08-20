@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: 'rabbitmq:3.11-management'
+    container_name: rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    env_file:
+      - ./.env
+
+  tapo_service:
+    container_name: tapo_service
+    build: ./tapo_service
+    env_file:
+      - ./tapo_service/.env
+    depends_on:
+      - rabbitmq
+
+  notification_service:
+    container_name: notification_service
+    build: ./notification_service
+    env_file:
+      - ./notification_service/.env
+    depends_on:
+      - rabbitmq

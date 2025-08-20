@@ -1,9 +1,8 @@
+import asyncio
 import json
 
+from settings import SLEEP_TIME, TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID
 from telegram import Bot
-
-from notification_service.settings import (TELEGRAM_BOT_TOKEN,
-                                           TELEGRAM_CHANNEL_ID)
 
 
 class TelegramAdapter:
@@ -27,4 +26,11 @@ class TelegramAdapter:
         if not template:
             return
         text = template.format(name)
-        await self._bot.send_message(chat_id=self._chat_id, text=text)
+        for i in range(10):
+            try:
+                await self._bot.send_message(chat_id=self._chat_id, text=text)
+                break
+            except Exception:
+                await asyncio.sleep(SLEEP_TIME)
+        else:
+            print("Failed to send a message to the Telegram channel.")

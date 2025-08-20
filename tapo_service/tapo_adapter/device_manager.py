@@ -2,13 +2,12 @@ import asyncio
 from dataclasses import dataclass
 from typing import Dict, Optional
 
+from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
 from settings import DEVICE_LIST
 from tapo import ApiClient
 from tapo_adapter.device_factory import DeviceFactory
 from tapo_adapter.plug_p110 import PlugP110
 from tapo_adapter.tapo_device_type import TapoDeviceType
-
-from rabbitmq_adapter.rabbitmq_adapter import RabbitMqAdapter
 
 
 @dataclass

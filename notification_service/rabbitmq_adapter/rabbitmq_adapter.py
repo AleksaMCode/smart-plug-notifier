@@ -3,7 +3,7 @@ from abc import ABCMeta, abstractmethod
 
 import aio_pika
 
-from notification_service.settings import SLEEP_TIME
+from settings import SLEEP_TIME
 
 
 class RabbitMqAdapter(metaclass=ABCMeta):

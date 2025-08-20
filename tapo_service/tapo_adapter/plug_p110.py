@@ -8,7 +8,7 @@ from settings import DEVICE_SLEEP_TIME
 from tapo import ApiClient
 from tapo_adapter.device import Device
 
-from tapo_service.settings import SLEEP_TIME
+from settings import SLEEP_TIME
 
 
 class PlugP110(Device):

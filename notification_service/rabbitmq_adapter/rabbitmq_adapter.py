@@ -3,6 +3,8 @@ from abc import ABCMeta, abstractmethod
 
 import aio_pika
 
+from notification_service.settings import SLEEP_TIME
+
 
 class RabbitMqAdapter(metaclass=ABCMeta):
     """Abstract base class for RabbitMQ operations with default init and connect."""
@@ -47,7 +49,7 @@ class RabbitMqAdapter(metaclass=ABCMeta):
                     )
                     break
                 except aio_pika.exceptions.AMQPConnectionError:
-                    await asyncio.sleep(2)
+                    await asyncio.sleep(SLEEP_TIME)
             else:
                 raise RuntimeError("Cannot connect to RabbitMQ")
 

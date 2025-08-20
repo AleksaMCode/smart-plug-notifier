@@ -8,6 +8,8 @@ from settings import DEVICE_SLEEP_TIME
 from tapo import ApiClient
 from tapo_adapter.device import Device
 
+from tapo_service.settings import SLEEP_TIME
+
 
 class PlugP110(Device):
     """Specific implementation for the Tapo P110 smart plug."""
@@ -53,7 +55,7 @@ class PlugP110(Device):
                 self._device = await self._client.p110(self._ip)
                 return
             except Exception:
-                await asyncio.sleep(2)
+                await asyncio.sleep(SLEEP_TIME)
         else:
             raise RuntimeError(
                 f"Cannot connect to Tapo device with MAC address {self._mac}."

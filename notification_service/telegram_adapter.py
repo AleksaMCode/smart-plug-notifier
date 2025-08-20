@@ -1,7 +1,7 @@
 import asyncio
 import json
 
-from settings import TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID
+from settings import TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID, SLEEP_TIME
 from telegram import Bot
 
 
@@ -31,6 +31,6 @@ class TelegramAdapter:
                 await self._bot.send_message(chat_id=self._chat_id, text=text)
                 break
             except Exception:
-                await asyncio.sleep(2)
+                await asyncio.sleep(SLEEP_TIME)
         else:
             raise RuntimeError("Failed to send a message to the Telegram channel.")

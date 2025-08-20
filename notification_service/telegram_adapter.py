@@ -1,7 +1,7 @@
 import asyncio
 import json
 
-from settings import TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID, SLEEP_TIME
+from settings import SLEEP_TIME, TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID
 from telegram import Bot
 
 

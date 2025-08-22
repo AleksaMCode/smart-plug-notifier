@@ -2,7 +2,6 @@ import asyncio
 from abc import ABCMeta, abstractmethod
 
 import aio_pika
-
 from settings import SLEEP_TIME
 
 

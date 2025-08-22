@@ -62,9 +62,9 @@ class PlugP110(Device):
         self._state = info.device_on
         return self._state
 
-    async def pooling(self):
+    async def polling(self):
         """
-        Used to Pool information from Tapo API about smart plug current power usage
+        Used for polling information from Tapo API about smart plug current power usage
         """
         while True:
             current_power_result = await self._device.get_current_power()

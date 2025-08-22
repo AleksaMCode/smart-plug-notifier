@@ -67,19 +67,24 @@ class PlugP110(Device):
         Used for polling information from Tapo API about smart plug current power usage
         """
         while True:
-            current_power_result = await self._device.get_current_power()
-            current_state = current_power_result.current_power > 0
-            print(f"{self._name} - {current_state}")
-            if current_state != self._state:
-                await self._rabbitmq.amqp_handler(
-                    {
-                        "device": self._name,
-                        "mac": self.mac,
-                        "state": current_state,
-                    }
-                )
-                self._state = current_state
-            sleep(DEVICE_SLEEP_TIME)
+            try:
+                current_power_result = await self._device.get_current_power()
+                current_state = current_power_result.current_power > 0
+                print(f"{self._name} - {current_state}")
+                if current_state != self._state:
+                    await self._rabbitmq.amqp_handler(
+                        {
+                            "device": self._name,
+                            "mac": self.mac,
+                            "state": current_state,
+                        }
+                    )
+                    self._state = current_state
+                sleep(DEVICE_SLEEP_TIME)
+            except Exception:
+                # TODO Log here
+                # TODO Update to distinguish between RabbitMQ error and Tapo error
+                print(f"Polling error for {self._name}: {e}")
 
     def save_state(self):
         """Persist state to JSON file on service shutdown."""

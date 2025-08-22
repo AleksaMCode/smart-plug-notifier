@@ -31,7 +31,10 @@ NETWORK_MASK = ""
 DEVICE_LIST = {"device1": "mac_address1", "device2": "mac_address2"}
 
 # Pause between checking the power usage of a device
-DEVICE_SLEEP_TIME = 5.0
+DEVICE_SLEEP_TIME = 5
+
+# Max attempts if not successful
+MAX_ATTEMPT = 5
 
 # Pause between resuming operation (retry to connect or search for something)
 SLEEP_TIME = 10

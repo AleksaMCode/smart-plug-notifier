@@ -26,6 +26,9 @@ if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHANNEL_ID:
 # Pause between resuming operation (retry to connect or search for something)
 SLEEP_TIME = 10
 
+# Max attempts if not successful
+MAX_ATTEMPT = 5
+
 # Server configuration.
 SERVER = {
     # localhost address is needed to make `uvicorn` server accessible on the local network using different devices.

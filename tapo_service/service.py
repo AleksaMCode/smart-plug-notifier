@@ -29,7 +29,7 @@ async def lifespan(fastapi: FastAPI):
     yield
     print("Server shutting down.")
     if device_manager:
-        await device_manager.stop_pooling()
+        await device_manager.stop_polling()
     device_manager.save_states()
 
 
@@ -68,7 +68,7 @@ async def serve_fastapi():
 
 
 async def serve_device_manager():
-    await device_manager.start_pooling()
+    await device_manager.start_polling()
 
 
 async def main():

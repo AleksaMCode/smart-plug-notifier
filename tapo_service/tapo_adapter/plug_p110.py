@@ -55,12 +55,14 @@ class PlugP110(Device):
         self._device = await self._client.p110(self._ip)
 
     async def get_state(self) -> bool:
-        """Retrieve actual state from the P110 device."""
+        """
+        Retrieve actual state from the P110 device.
+        :return: True if device is turned on, otherwise False
+        """
         if not self._device:
             await self.init()
         info = await self._device.get_device_info()
-        self._state = info.device_on
-        return self._state
+        return info.device_on
 
     async def polling(self):
         """

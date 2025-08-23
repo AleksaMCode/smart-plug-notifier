@@ -23,6 +23,5 @@ services:
     env_file:
       - ./notification_service/.env
     network_mode: host
-
     depends_on:
       - rabbitmq

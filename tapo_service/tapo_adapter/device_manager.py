@@ -39,14 +39,14 @@ class DeviceManager:
             *(managed.device.turn_off() for managed in self.devices.values())
         )
 
-    async def start_pooling(self):
+    async def start_polling(self):
         await self.turn_on_all()
         """Start notifier tasks for all devices concurrently."""
         for name, managed in self.devices.items():
             if managed.task is None:
-                managed.task = asyncio.create_task(managed.device.pooling())
+                managed.task = asyncio.create_task(managed.device.polling())
 
-    async def stop_pooling(self):
+    async def stop_polling(self):
         """Cancel all notifier tasks."""
         for managed in self.devices.values():
             if managed.task:

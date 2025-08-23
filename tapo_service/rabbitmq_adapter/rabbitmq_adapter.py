@@ -2,8 +2,8 @@ import asyncio
 from abc import ABCMeta, abstractmethod
 
 import aio_pika
-
-from settings import SLEEP_TIME
+from settings import MAX_ATTEMPT, SLEEP_TIME
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 
 class RabbitMqAdapter(metaclass=ABCMeta):
@@ -26,31 +26,32 @@ class RabbitMqAdapter(metaclass=ABCMeta):
         self._username = username
         self._password = password
 
+    @retry(
+        wait=wait_fixed(SLEEP_TIME), stop=stop_after_attempt(MAX_ATTEMPT), reraise=True
+    )
     async def connect(self) -> None:
         """Default connection logic to RabbitMQ."""
         if self._connection is None or self._connection.is_closed:
-            for i in range(10):
-                try:
-                    self._connection = await aio_pika.connect_robust(
-                        host=self._host,
-                        port=self._port,
-                        login=self._username,
-                        password=self._password,
-                    )
-                    self._channel = await self._connection.channel()
-                    # not durable → doesn't survive broker restart
-                    # auto_delete → deleted once no subscribers remain
-                    self._channel_queue = await self._channel.declare_queue(
-                        self._queue,
-                        # durable=False, auto_delete=True
-                        durable=True,
-                        # only keeps messages if there’s a consumer; otherwise they are dropped
-                        arguments={"x-max-length": 0},
-                    )
-                    break
-                except aio_pika.exceptions.AMQPConnectionError:
-                    await asyncio.sleep(SLEEP_TIME)
-            else:
+            try:
+                self._connection = await aio_pika.connect_robust(
+                    host=self._host,
+                    port=self._port,
+                    login=self._username,
+                    password=self._password,
+                )
+                self._channel = await self._connection.channel()
+                # not durable → doesn't survive broker restart
+                # auto_delete → deleted once no subscribers remain
+                self._channel_queue = await self._channel.declare_queue(
+                    self._queue,
+                    # durable=False, auto_delete=True
+                    durable=True,
+                    # only keeps messages if there’s a consumer; otherwise they are dropped
+                    arguments={"x-max-length": 0},
+                )
+            except aio_pika.exceptions.AMQPConnectionError:
+                # TODO Log here
+                await asyncio.sleep(SLEEP_TIME)
                 raise RuntimeError("Cannot connect to RabbitMQ")
 
     @abstractmethod

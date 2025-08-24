@@ -52,7 +52,10 @@ class PlugP110(Device):
     )
     async def init(self):
         """Initialize the P110 device connection."""
-        self._device = await self._client.p110(self._ip)
+        with yaspin(
+            text=f"Trying to connect to P110 device with IP address `{self._ip}` ({self._mac})..."
+        ):
+            self._device = await self._client.p110(self._ip)
 
     async def get_state(self) -> bool:
         """

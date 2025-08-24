@@ -4,6 +4,7 @@ from abc import ABCMeta, abstractmethod
 import aio_pika
 from settings import MAX_ATTEMPT, SLEEP_TIME
 from tenacity import retry, stop_after_attempt, wait_fixed
+from yaspin import yaspin
 
 
 class RabbitMqAdapter(metaclass=ABCMeta):
@@ -26,6 +27,7 @@ class RabbitMqAdapter(metaclass=ABCMeta):
         self._username = username
         self._password = password
 
+    @yaspin(text="Connecting to RabbitMQ...")
     @retry(
         wait=wait_fixed(SLEEP_TIME), stop=stop_after_attempt(MAX_ATTEMPT), reraise=True
     )

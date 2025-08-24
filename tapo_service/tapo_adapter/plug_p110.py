@@ -8,6 +8,7 @@ from settings import DEVICE_SLEEP_TIME, MAX_ATTEMPT, SLEEP_TIME
 from tapo import ApiClient
 from tapo_adapter.device import Device
 from tenacity import retry, stop_after_attempt, wait_fixed
+from yaspin import yaspin
 
 
 class PlugP110(Device):

@@ -8,6 +8,7 @@ from settings import DEVICE_SLEEP_TIME, MAX_ATTEMPT, SLEEP_TIME
 from tapo import ApiClient
 from tapo_adapter.device import Device
 from tenacity import retry, stop_after_attempt, wait_fixed
+from yaspin import yaspin
 
 
 class PlugP110(Device):
@@ -52,7 +53,10 @@ class PlugP110(Device):
     )
     async def init(self):
         """Initialize the P110 device connection."""
-        self._device = await self._client.p110(self._ip)
+        with yaspin(
+            text=f"Trying to connect to P110 device with IP address `{self._ip}` ({self._mac})..."
+        ):
+            self._device = await self._client.p110(self._ip)
 
     async def get_state(self) -> bool:
         """

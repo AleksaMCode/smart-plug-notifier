@@ -5,6 +5,7 @@ import telegram
 from settings import MAX_ATTEMPT, SLEEP_TIME, TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID
 from telegram import Bot
 from tenacity import retry, stop_after_attempt, wait_fixed
+from yaspin import yaspin
 
 
 class TelegramAdapter:
@@ -18,12 +19,14 @@ class TelegramAdapter:
             with open(messages_file, "r") as file:
                 self._messages = json.load(file)
 
+    @yaspin(text=f"Connecting to Telegram Bot...")
     @retry(
         wait=wait_fixed(SLEEP_TIME), stop=stop_after_attempt(MAX_ATTEMPT), reraise=True
     )
     def _connect(self, token: str = None):
         self._bot = Bot(token=token or TELEGRAM_BOT_TOKEN)
 
+    @yaspin(text=f"Sending message to Telegram Channel...")
     @retry(
         wait=wait_fixed(SLEEP_TIME), stop=stop_after_attempt(MAX_ATTEMPT), reraise=True
     )

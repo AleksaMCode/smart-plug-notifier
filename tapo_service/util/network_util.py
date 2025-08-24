@@ -11,6 +11,7 @@ from tenacity import (
     stop_after_attempt,
     wait_fixed,
 )
+from yaspin import yaspin
 
 
 class NetworkUtil:
@@ -33,7 +34,10 @@ class NetworkUtil:
             return None
 
         try:
-            return _inner()
+            with yaspin(
+                text=f"Resolving an IP address for `{mac_address}` MAC address..."
+            ):
+                return _inner()
         except (Exception, RetryError):
             # TODO Log here
             raise RuntimeError(

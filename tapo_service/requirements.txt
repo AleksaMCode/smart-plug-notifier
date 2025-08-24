@@ -5,3 +5,4 @@ fastapi
 uvicorn
 aio_pika
 tenacity
+yaspin

@@ -88,7 +88,7 @@ class PlugP110(Device):
                     )
                     self._state = current_state
                 sleep(DEVICE_SLEEP_TIME)
-            except Exception:
+            except Exception as e:
                 # TODO Log here
                 # TODO Update to distinguish between RabbitMQ error and Tapo error
                 print(f"Polling error for {self._name}: {e}")

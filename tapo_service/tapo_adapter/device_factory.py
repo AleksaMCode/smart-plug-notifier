@@ -14,13 +14,15 @@ class DeviceFactory(metaclass=ABCMeta):
     async def create(
         name: str,
         type: TapoDeviceType,
-        mac: str,
         client: ApiClient,
         rabbitmq: RabbitMqAdapter,
+        *,
+        mac: str,
+        ip: str = None
     ) -> Device:
         match type:
             case TapoDeviceType.P110:
-                device = PlugP110(name, mac, client, rabbitmq)
+                device = PlugP110(name, client, rabbitmq, mac, ip)
                 await device.init()
                 return device
             case _:

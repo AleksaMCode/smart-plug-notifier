@@ -27,8 +27,8 @@ if not RABBITMQ_USERNAME or not RABBITMQ_USERNAME:
 # E.g., 192.168.1.1/24
 NETWORK_MASK = ""
 
-# List of devices and their names
-DEVICE_LIST = {"device1": "mac_address1", "device2": "mac_address2"}
+# List of devices (mac address or ip address) and their names
+DEVICE_LIST = {"device1": "mac_or_ip_address1", "device2": "mac_or_ip_address2"}
 
 # Pause between checking the power usage of a device
 DEVICE_SLEEP_TIME = 5

@@ -6,18 +6,20 @@ from util.network_util import NetworkUtil
 class Device(DeviceInterface):
     """Concrete implementation of a smart device."""
 
-    def __init__(self, mac: str, client: ApiClient, ip: str = None):
+    def __init__(self, client: ApiClient, mac: str, ip: str = None):
         self._client = client
         self._device = None  # Subclasses will set this
+        # MAC can be none
         self._mac = mac
         # If IP is empty, find it dynamically
-        if ip is None:
-            ip = NetworkUtil.get_ip_from_mac(mac)
-            if ip is None:
+        if mac and not ip:
+            self._ip = NetworkUtil.get_ip_from_mac(mac)
+            if self._ip is None:
                 raise RuntimeError(
                     f"Failed to get an IP address for device with a MAC address {mac}."
                 )
-        self._ip = NetworkUtil.get_ip_from_mac(mac)
+        else: # If IP is not empty, set the static IP address
+            self._ip = NetworkUtil.get_ip_from_mac(mac)
 
     async def turn_on(self):
         if self._device:

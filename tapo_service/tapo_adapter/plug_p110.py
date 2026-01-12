@@ -21,18 +21,19 @@ class PlugP110(Device):
     def __init__(
         self,
         name: str,
-        mac: str,
         client: ApiClient,
         rabbitmq: RabbitMqAdapter,
-        ip: str = None,
+            mac: str,
+
+            ip: str = None,
     ):
         """
         :param name: Name of the device
-        :param mac: MAC address of the device
         :param client: Tapo API client object
+        :param mac: MAC address of the device
         :param ip: Static IP address of the device
         """
-        super().__init__(mac, client, ip)
+        super().__init__(client, mac, ip)
         self._name = name
         self._rabbitmq = rabbitmq
         state_file = Path(f"state-{mac.replace(':', '-')}.json")

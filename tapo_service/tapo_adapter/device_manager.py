@@ -70,12 +70,18 @@ class DeviceManagerBuilder:
         self._client = client
         self._rabbitmq = rabbitmq
 
-    async def build(self) -> DeviceManager:
+    async def build(self, build_with_mac : bool = True) -> DeviceManager:
         manager = DeviceManager()
-        for name, mac in DEVICE_LIST.items():
-            # For now, only PlugP110 is supported
+        # For now, only PlugP110 is supported
+        for name, address in DEVICE_LIST.items():
             device = await DeviceFactory.create(
-                name, TapoDeviceType.P110, mac, self._client, self._rabbitmq
+                name=name,
+                type=TapoDeviceType.P110,
+                client=self._client,
+                rabbitmq=self._rabbitmq,
+                mac=address if build_with_mac else None,
+                ip=None if build_with_mac else address,
             )
             await manager.add_device(name, device)
+
         return manager

@@ -56,7 +56,8 @@ async def init():
     )
     await rabbitmq.connect()
     builder = DeviceManagerBuilder(api_client, rabbitmq)
-    device_manager = await builder.build()
+    # Send True to builder if you are using MAC addresses, otherwise use False for IP addresses
+    device_manager = await builder.build(build_with_mac=True)
 
 
 async def serve_fastapi():
